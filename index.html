@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AM-GM Boundary: What Makes Something One Thing?</title>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #faf8f4;
+    --bg-code: #f0ede6;
+    --text: #2a2520;
+    --text-secondary: #6b6259;
+    --accent: #c4841d;
+    --accent-muted: #d4a54a;
+    --accent-bg: #fdf6e8;
+    --border: #e0dbd2;
+    --border-strong: #c9c2b6;
+    --link: #8b5e2f;
+    --link-hover: #c4841d;
+
+    --widget-bg: #ffffff;
+    --widget-border: #e0dbd2;
+    --pool-safe: #5a9e6f;
+    --pool-danger: #c75a3a;
+    --pool-water: #6ba3c7;
+    --pool-water-light: #d4e8f4;
+    --pipe-flow: #7bb3d1;
+
+    --font-body: 'Newsreader', Georgia, serif;
+    --font-heading: 'DM Sans', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --content-width: 680px;
+    --wide-width: 820px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── Header ────────────────────────────────── */
+  .post-header {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 5rem 1.5rem 2.5rem;
+  }
+
+  .post-header .kicker {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .post-header h1 {
+    font-family: var(--font-body);
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02em;
+  }
+
+  .post-header .subtitle {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-header .meta {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+
+  .post-header .meta a {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  /* ── Main content ──────────────────────────── */
+  .post-body {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .post-body p {
+    margin-bottom: 1.15rem;
+  }
+
+  .post-body h2 {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 3.5rem 0 1rem;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .post-body h2 .section-number {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+
+  .post-body h3 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 2rem 0 0.6rem;
+  }
+
+  .post-body a {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s;
+  }
+  .post-body a:hover {
+    text-decoration-color: var(--link-hover);
+    color: var(--link-hover);
+  }
+
+  .post-body em { font-style: italic; }
+  .post-body strong { font-weight: 600; }
+
+  .post-body blockquote {
+    border-left: 3px solid var(--accent-muted);
+    padding: 0.2rem 0 0.2rem 1.3rem;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .post-body code {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    background: var(--bg-code);
+    padding: 0.15em 0.35em;
+    border-radius: 3px;
+  }
+
+  /* ── Drop cap ──────────────────────────────── */
+  .drop-cap::first-letter {
+    float: left;
+    font-size: 3.8em;
+    line-height: 0.8;
+    padding-right: 0.08em;
+    padding-top: 0.07em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ── Separator ─────────────────────────────── */
+  .section-break {
+    text-align: center;
+    margin: 3rem 0;
+    color: var(--border-strong);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* ── Footnotes / Sidenotes ─────────────────── */
+  .footnote-ref {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+    color: var(--accent);
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+  }
+
+  .footnote {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-bottom: 0.6rem;
+    padding-left: 1.5em;
+    text-indent: -1.5em;
+  }
+
+  .footnote-marker {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 0.3em;
+  }
+
+  .footnotes-section {
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+  }
+
+  /* ── Collapsible formal sections ───────────── */
+  details.formal {
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0;
+    margin: 1.8rem 0;
+    overflow: hidden;
+  }
+
+  details.formal summary {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  details.formal summary:hover {
+    background: rgba(196, 132, 29, 0.08);
+  }
+
+  details.formal summary::before {
+    content: '▸';
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 0.75em;
+  }
+
+  details.formal[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  details.formal .formal-body {
+    padding: 0.5rem 1.2rem 1.2rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    border-top: 1px solid var(--border);
+  }
+
+  details.formal .formal-body p {
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── Figures ─────────────────────────────────── */
+  .figure {
+    margin: 2rem -2rem;
+    text-align: center;
+  }
+
+  .figure img {
+    width: 100%;
+    max-width: 820px;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .figure figcaption {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-top: 0.6rem;
+    padding: 0 2rem;
+    line-height: 1.5;
+  }
+
+  .figure figcaption strong {
+    color: var(--accent);
+  }
+
+  @media (max-width: 740px) {
+    .figure { margin: 1.5rem -0.5rem; }
+    .figure figcaption { padding: 0 0.5rem; }
+  }
+
+  /* ── Interactive widgets ────────────────────── */
+  .widget-container {
+    background: var(--widget-bg);
+    border: 1px solid var(--widget-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem -1rem;
+    box-shadow: 0 2px 12px rgba(42, 37, 32, 0.06);
+  }
+
+  .widget-title {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .widget-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .control-group {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .control-group label {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .control-group .value-display {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    float: right;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    margin-top: 0.2rem;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid var(--widget-bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  .widget-caption {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 0.8rem;
+    line-height: 1.5;
+  }
+
+  /* ── Verdict bar ───────────────────────────── */
+  .verdict-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
+    background: var(--bg);
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    transition: background 0.3s;
+  }
+
+  .verdict-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  /* ── Callout box ───────────────────────────── */
+  .callout {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 1rem 1.2rem;
+    margin: 1.8rem 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95rem;
+  }
+
+  .callout strong {
+    color: var(--accent);
+  }
+
+  /* ── Responsive ────────────────────────────── */
+  @media (max-width: 740px) {
+    html { font-size: 16px; }
+    .post-header { padding: 3rem 1.2rem 2rem; }
+    .post-header h1 { font-size: 2rem; }
+    .post-body { padding: 0 1.2rem 3rem; }
+    .widget-container { margin: 1.5rem -0.5rem; padding: 1rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- HEADER                                       -->
+<!-- ════════════════════════════════════════════ -->
+<header class="post-header">
+  <div class="kicker">Agent Foundations</div>
+  <h1>What Makes Something One&nbsp;Thing?</h1>
+  <div class="subtitle">
+    The AM-GM boundary: a mathematical theory of when subsystems compose into coherent units, and why arithmetic gives way to geometry at the edge.
+  </div>
+  <div class="meta">
+    Haru Kim · April 2026 · <a href="#">Companion to the technical monograph</a>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- BODY                                         -->
+<!-- ════════════════════════════════════════════ -->
+<article class="post-body">
+
+<!-- ── §1. THE PUZZLE ────────────────────────── -->
+<h2><span class="section-number">1.</span> Four things that might be one thing</h2>
+
+<p class="drop-cap">
+A biological cell gets hit by a toxin that disables a fifth of its mitochondria. It doesn't die. The remaining mitochondria produce ATP, which diffuses through the cytoplasm to wherever it's needed. The cell compensates. It is <em>one thing</em>.
+</p>
+
+<p>
+Two deer live in the same forest. One finds abundant food. The other starves. The well-fed deer cannot feed the starving one. They are <em>two things</em>.
+</p>
+
+<p>
+An ant colony sends out scouts. Some find food, others don't. Workers regurgitate into the mouths of hungry nestmates. The colony persists even when many individual ants die. Is the colony one thing, or many?
+</p>
+
+<p>
+A forest stand of trees is connected by mycorrhizal networks. Trees in shade receive sugars from trees in sunlight through the fungal web. When a pathogen kills one tree, the rest may or may not survive, depending on what the pathogen does to the shared substrate. The stand is — what?
+</p>
+
+<figure class="figure">
+  <img src="fig1.png" alt="Four biological systems illustrating the individuality puzzle: a cell with freely diffusing ATP (one thing), two deer that cannot share calories (two things), an ant colony with food sharing by regurgitation (ambiguous), and a forest stand connected by mycorrhizal networks (depends on timescale).">
+  <figcaption><strong>Figure 1.</strong> Four systems, four answers. Resource transfer determines individuality — and the answer can depend on which timescale you ask about.</figcaption>
+</figure>
+
+<p>
+The cell and the deer feel like clear cases. The colony and the forest feel harder. But what <em>exactly</em> distinguishes them? What makes the cell a unified individual, the two deer separate individuals, and the colony and forest intermediate?
+</p>
+
+<p>
+The obvious answer — the thing with its own membrane is the individual — is wrong. It fails immediately on the ant colony, which has no membrane. It fails on conjoined twins sharing a circulatory system. It fails on the forest stand. Something else is doing the work.
+</p>
+
+<p>
+This post introduces a research program that proposes a specific answer. The answer is mathematical, and it is about <em>transferability over time</em>.
+</p>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §2. THE TRANSFERABILITY INSIGHT ────────── -->
+<h2><span class="section-number">2.</span> Compensation before catastrophe</h2>
+
+<p>
+Here is the claim: a coherent unit is a region within which losses to one part can be compensated by gains to another part <em>before the next viability-relevant event</em>. The boundary of the unit is where this compensation breaks down.
+</p>
+
+<p>
+Inside the boundary, resources pool. The cell's ATP diffuses freely; only the total energy budget matters, not which mitochondrion produced it. Outside the boundary, each unit faces its own fate. The two deer each survive or starve independently; the first deer's caloric surplus cannot reach the second.
+</p>
+
+<p>
+The critical insight — the thing that separates this from simpler accounts of individuality — is that the boundary is determined by a <em>timescale comparison</em>. It's not enough that resources <em>can</em> transfer between parts. They have to transfer <em>fast enough relative to how often danger arrives</em>.
+</p>
+
+<p>
+Consider the ant colony again. Worker ants share food by regurgitation, but this takes time — the food has to pass mouth-to-mouth through a chain of intermediaries. If a sudden cold snap can kill a hungry ant in minutes, but food redistribution takes hours, then on the timescale of cold snaps, the colony is many things. Each ant faces the cold alone. But if starvation takes weeks and food redistribution takes hours, then on the starvation timescale, the colony is one thing. Its food supply is effectively pooled.
+</p>
+
+<p>
+Same physical system. Different timescales. Different answers.
+</p>
+
+<p>
+This is worth sitting with, because it rules out a lot of candidate theories. The boundary isn't spatial — two deer standing side by side are two units because there's no calorie-transfer mechanism, regardless of proximity. The boundary isn't structural — it depends on dynamics, not topology. And the boundary isn't a modeling choice — it's a fact about the system's dynamics, specifically about whether redistribution completes before the next hazard arrives.<span class="footnote-ref" id="fnref1">1</span>
+</p>
+
+<p>
+A toy model makes this concrete. Imagine two compartments connected by a pipe, with a periodic drain that kills any compartment whose level falls below a threshold.
+</p>
+
+<!-- ── WIDGET: Two-compartment simulation ────── -->
+<div class="widget-container" id="compartment-widget">
+  <div class="widget-title">Interactive · Two-Compartment Resource Mixing</div>
+  <canvas id="compartmentCanvas" width="680" height="300" style="width:100%; border-radius: 4px;"></canvas>
+
+  <div class="verdict-bar" id="verdictBar">
+    <div class="verdict-indicator" id="verdictDot"></div>
+    <span id="verdictText">Adjust the sliders to explore.</span>
+  </div>
+
+  <div class="widget-controls">
+    <div class="control-group">
+      <label>Pipe flow rate <span class="value-display" id="flowVal">5.0</span></label>
+      <input type="range" id="flowRate" min="0.1" max="20" step="0.1" value="5.0">
+    </div>
+    <div class="control-group">
+      <label>Hazard frequency <span class="value-display" id="hazardVal">1.0</span></label>
+      <input type="range" id="hazardFreq" min="0.1" max="5" step="0.1" value="1.0">
+    </div>
+    <div class="control-group">
+      <label>Drain severity <span class="value-display" id="drainVal">0.30</span></label>
+      <input type="range" id="drainSeverity" min="0.05" max="0.8" step="0.01" value="0.30">
+    </div>
+  </div>
+
+  <div class="widget-caption">
+    Two compartments exchange resources through a connecting pipe. Periodically, a random drain hits one compartment. If the pipe is fast relative to the drain frequency, resources equalize before the next hit — the system behaves as one pool. If the pipe is slow, each compartment faces its fate alone.
+  </div>
+</div>
+
+<p>
+The widget above captures the core intuition. When the pipe is fast relative to hazard arrival, the two compartments equalize before the next drain hits — they survive or fail together, as a single pooled resource. When the pipe is slow, each compartment is on its own. The system crosses a boundary — smoothly but decisively — as you change the ratio of flow rate to hazard frequency.
+</p>
+
+<p>
+We call this the <strong>AM-GM boundary</strong>, for reasons that will become clear in the next section: it is the dynamical location where <em>arithmetic</em> aggregation (pooling resources, taking totals) gives way to <em>geometric</em> aggregation (composing independent survival probabilities). The name comes from the AM-GM inequality, but the object it names is a specific dynamical boundary, not the classical inequality itself.
+</p>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §3. THE AGGREGATION SWITCH ────────────── -->
+<h2><span class="section-number">3.</span> Why geometric? The aggregation switch</h2>
+
+<p>
+Once you're outside the boundary — once each unit is facing its own hazards independently — something mathematically precise happens to the aggregation rule. Survival over repeated rounds becomes <em>multiplicative</em>.
+</p>
+
+<p>
+This is easiest to see with a simple example. Suppose you have two independent ventures, each of which survives each round with some probability. After $T$ rounds, each venture's cumulative survival is the product of its per-round survival probabilities:
+</p>
+
+$$P(\text{survive } T \text{ rounds}) = \prod_{t=1}^{T} p_t$$
+
+<p>
+This is just the chain rule for independent events. Nothing controversial. But it has a non-obvious consequence for how we should evaluate and compare independent ventures: the long-run fate of a multiplicative process is governed by the <em>geometric</em> mean of its per-round factors, not the arithmetic mean.
+</p>
+
+<details class="formal">
+  <summary>Why multiplicative composition forces geometric evaluation</summary>
+  <div class="formal-body">
+    <p>
+    Consider an agent that faces $T$ independent rounds, surviving each round $t$ with probability $p_t$. Its cumulative survival is $\prod_t p_t$. Taking logs:
+    </p>
+    <p>
+    $$\log P(\text{survive all}) = \sum_{t=1}^T \log p_t = T \cdot \frac{1}{T}\sum_t \log p_t$$
+    </p>
+    <p>
+    The long-run survival rate is controlled by $\frac{1}{T}\sum_t \log p_t$ — the arithmetic mean of the log-survival-rates. Exponentiating recovers the geometric mean $\left(\prod p_t\right)^{1/T}$.
+    </p>
+    <p>
+    The arithmetic mean $\frac{1}{T}\sum_t p_t$ is irrelevant to long-run survival. A venture that survives with probability 0.99 half the time and 0.01 the other half has an arithmetic mean survival of 0.50 per round, but a geometric mean of $\sqrt{0.99 \times 0.01} \approx 0.10$. It's doomed, despite the reassuring average.
+    </p>
+    <p>
+    This is the operational content of Peters's ergodicity economics and Kelly's criterion: for multiplicative dynamics, the time average is the geometric mean, and the ensemble average (arithmetic mean) can be arbitrarily misleading.
+    </p>
+  </div>
+</details>
+
+<!-- ── WIDGET: Kelly / Ergodicity Demo ───────── -->
+<div class="widget-container" id="kelly-widget">
+  <div class="widget-title">Interactive · Ensemble Average vs. Time Average</div>
+  <canvas id="kellyCanvas" width="680" height="320" style="width:100%; border-radius: 4px;"></canvas>
+
+  <div class="verdict-bar" id="kellyVerdict">
+    <div class="verdict-indicator" id="kellyDot" style="background: #8b2232;"></div>
+    <span id="kellyText">The ensemble average (arithmetic mean across all trajectories) goes up. The typical trajectory (geometric mean) goes down. Most individuals go broke.</span>
+  </div>
+
+  <div class="widget-controls">
+    <div class="control-group">
+      <label>Win probability <span class="value-display" id="winProbVal">0.60</span></label>
+      <input type="range" id="winProb" min="0.50" max="0.80" step="0.01" value="0.60">
+    </div>
+    <div class="control-group">
+      <label>Bet fraction <span class="value-display" id="betFracVal">0.40</span></label>
+      <input type="range" id="betFrac" min="0.05" max="0.95" step="0.01" value="0.40">
+    </div>
+    <div class="control-group">
+      <label>Rounds <span class="value-display" id="roundsVal">80</span></label>
+      <input type="range" id="rounds" min="20" max="200" step="5" value="80">
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 0.6rem; margin-top: 0.8rem;">
+    <button id="kellyResim" style="
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    ">Re-simulate</button>
+    <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); align-self: center;" id="kellyStats"></span>
+  </div>
+
+  <div class="widget-caption">
+    Each thin line is one agent's bankroll over time under repeated multiplicative bets. The <strong style="color: #8b2232;">crimson line</strong> is the ensemble average (arithmetic mean across agents). The <strong style="color: #c4841d;">amber line</strong> is the geometric mean. For most bet fractions, the ensemble average rises while the typical agent goes broke — the arithmetic mean is misleading. Try dragging the bet fraction to find the Kelly-optimal point.
+  </div>
+</div>
+
+<p>
+The same logic applies when we aggregate <em>across</em> independent units at a single time-step, rather than <em>across</em> time-steps for a single unit. If two units face independent hazards and neither can bail the other out, then evaluating their combined viability is a geometric-mean problem, not an arithmetic-mean problem.
+</p>
+
+<p>
+But "it's geometric because survival is multiplicative" is only half the story. The deeper result, due to <a href="https://www.lesswrong.com/posts/3nMpdRRdsDjmacstv/geometric-rationality-is-not-about-kelly-betting">Garrabrant</a> and formalized in the companion monograph, is that the weighted geometric mean is the <em>unique</em> aggregation rule satisfying a small set of compositional axioms. You don't choose it. It's forced.
+</p>
+
+<details class="formal">
+  <summary>The five axioms that force the geometric mean (Theorem II.1)</summary>
+  <div class="formal-body">
+    <p>
+    Suppose an outer evaluator $A_w$ acts on positive interface values $(c_1, \ldots, c_n)$ with weights $w = (w_1, \ldots, w_n)$ summing to 1. If $A_w$ satisfies:
+    </p>
+    <p>
+    <strong>(A1) Continuity</strong> in $(c_1, \ldots, c_n)$;
+    </p>
+    <p>
+    <strong>(A2) Strict monotonicity</strong> in each coordinate;
+    </p>
+    <p>
+    <strong>(A3) Idempotence:</strong> $A_w(c, c, \ldots, c) = c$;
+    </p>
+    <p>
+    <strong>(A4) Regrouping invariance:</strong> evaluating all-at-once agrees with evaluating in clusters then re-evaluating the cluster summaries;
+    </p>
+    <p>
+    <strong>(A5) Temporal interface sufficiency:</strong> if each coordinate's two-segment viability is the product of its one-segment viabilities (i.e. $(\mathbf{c} \circ \mathbf{c}')_i = c_i \cdot c_i'$), then the evaluator on the concatenated profile depends only on the separately-evaluated scalars: $A_w(\mathbf{c} \circ \mathbf{c}') = F_w(A_w(\mathbf{c}), A_w(\mathbf{c}'))$;
+    </p>
+    <p>
+    then $A_w(c_1, \ldots, c_n) = \prod_i c_i^{w_i}$ — the weighted geometric mean.
+    </p>
+    <p>
+    Axioms (A1)–(A4) are natural regularity conditions. The axiom that does the real work is <strong>(A5)</strong>: the requirement that the evaluator's scalar output, once produced, is itself admissible as an input for further temporal composition. This is what connects the outer theorem to the interface-value problem.
+    </p>
+  </div>
+</details>
+
+<p>
+So the picture is: inside the boundary, pooling works and only totals matter (arithmetic). Outside, each unit's survival composes multiplicatively, and the forced evaluator across units is the weighted geometric mean. The AM-GM boundary is where one gives way to the other.
+</p>
+
+<p>
+The connection to expected-log maximization should be visible. Maximizing $E[\ln X]$ — the strategy mandated by the Kelly criterion, by Peters's ergodicity economics, and by Garrabrant's geometric rationality — is maximizing the geometric mean of outcomes. The AM-GM program gives this a structural grounding: you maximize $E[\ln X]$ when you're aggregating across non-transferable branches, and the reason those branches are non-transferable is a dynamical fact about the system — specifically, about where the AM-GM boundary falls.<span class="footnote-ref" id="fnref2">2</span>
+</p>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §4. THE INTERFACE VALUE ────────────────── -->
+<h2><span class="section-number">4.</span> The interface value: compression at the boundary</h2>
+
+<p>
+The picture so far has two clean edges: arithmetic inside, geometric outside. But the hard problem is at the boundary itself. What, precisely, does the inside hand off to the outside?
+</p>
+
+<p>
+The answer is an object called the <strong>interface value</strong>: a single positive number that summarizes a block's entire internal state, for the purposes of cross-block composition. Think of it as a compression operation. The block's internal state is high-dimensional — which mitochondria are active, how the ATP is distributed, what the current allocation looks like. But for the outside world to aggregate across blocks using the geometric mean, each block has to compress down to a scalar.
+</p>
+
+<p>
+The interface value has to satisfy three requirements:
+</p>
+
+<div class="callout">
+  <strong>Scalar compression</strong> — the block's future, as seen from outside, depends only on this one number, not on internal microstate details.<br>
+  <strong>Ratio-scale</strong> — comparisons between blocks are ratios, not differences, with zero meaning "dead." <br>
+  <strong>Dynamically produced</strong> — the scalar arises from the block's own internal dynamics, not from external labeling.
+</div>
+
+<p>
+This is where the program gets technically demanding. Constructing an interface value that satisfies all three requirements — and proving that it does — requires navigating three obstructions that the monograph identifies and resolves in a specific model class. The informal version:
+</p>
+
+<details class="formal">
+  <summary>Three obstructions to the interface value</summary>
+  <div class="formal-body">
+    <p>
+    <strong>Obstruction 1: Affine vs. ratio-scale.</strong> Many natural block summaries (expected payoffs, average resource levels) are affine — they have an arbitrary zero point. The geometric mean requires ratio-scale inputs with a shared zero at "dead." Getting from affine to ratio-scale requires the block's dynamics to have genuine absorbing-failure structure.
+    </p>
+    <p>
+    <strong>Obstruction 2: Timing-sensitive nesting.</strong> If the interface value is read at the wrong time — before internal mixing has finished, or after the block has already substantially decayed — it doesn't faithfully represent the block. The scalar has to be read inside a specific temporal window.
+    </p>
+    <p>
+    <strong>Obstruction 3: Post-interface correlations.</strong> Even if each block produces a valid scalar, the outer geometric mean requires those scalars to be independent. If blocks share hidden common causes or residual correlations after interface-value extraction, the geometric composition breaks.
+    </p>
+  </div>
+</details>
+
+<p>
+The interface value is the conceptual crux of the program. It's the object that <em>makes the boundary well-defined</em> rather than metaphorical. If the interface value exists and is well-behaved, the block is a coherent unit. If it doesn't — if the block's future depends on internal details that can't be absorbed into a single number — the block hasn't cohered. "What is an agent?" becomes "when does the interface value exist?"
+</p>
+
+<figure class="figure">
+  <img src="fig3.png" alt="Schematic of the interface value as a compression bottleneck: a high-dimensional internal state (many connected nodes) is compressed via summation into a single scalar c (the interface value), which then participates in geometric composition across blocks via the weighted geometric mean.">
+  <figcaption><strong>Figure 3.</strong> The interface value as compression bottleneck. High-dimensional internal state → single scalar → geometric composition across blocks. The AM-GM boundary is where the compression happens.</figcaption>
+</figure>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §5. WHY NAIVE MODELS FAIL ─────────────── -->
+<h2><span class="section-number">5.</span> Why naive models fail (and what fixes them)</h2>
+
+<p>
+The monograph's technical core constructs a specific model class in which the interface value can be exhibited, computed, and verified. The model is a reversible birth-death chain on a fixed-total fiber — think of it as a toy version of "some conserved resource being randomly redistributed among components, with death when any component drops too low."
+</p>
+
+<p>
+The first result is a <em>negative</em> one, and it's instructive. In the simplest version — uniform random redistribution with no further structure — the construction fails. The block's internal mixing time and its effective hazard time are the same order of magnitude (both scale as $R^2$ where $R$ is the total resource). There's no temporal window in which the block has equilibrated internally but hasn't yet died. The interface value doesn't exist.
+</p>
+
+<figure class="figure">
+  <img src="fig2.png" alt="Two side-by-side energy landscape diagrams. Left: flat landscape where mixing time and hazard time are the same order (fails to produce a scalar interface value). Right: Gibbs-lifted landscape with a deep potential well, where mixing is fast within the well but escape to the danger zone is exponentially rare, creating timescale separation.">
+  <figcaption><strong>Figure 2.</strong> The structural ingredient that makes the interface value work. A flat energy landscape gives no timescale separation; a Gibbs-lifted landscape concentrates the system in safe configurations, making escape to the danger zone exponentially rare.</figcaption>
+</figure>
+
+<p>
+What fixes this is thermodynamic structure — specifically, a <em>Gibbs weight</em> on the internal dynamics that concentrates the stationary distribution away from dangerous configurations. Physically, this corresponds to the system having an energy landscape that strongly favors "safe" internal states — states where the resource is roughly evenly distributed, far from the lethal boundary.
+</p>
+
+<p>
+With the Gibbs structure in place, three things happen simultaneously:
+</p>
+
+<p>
+The hazard rate becomes exponentially small in the resource level (the system sits in a deep potential well and rarely reaches the dangerous boundary). A <em>spectral compression window</em> opens: there's now a wide temporal range where the block has collapsed onto its principal survival mode but hasn't yet died — exactly the window where a scalar interface value makes sense. And the interface value itself acquires a clean mathematical form: it's the principal eigenvalue of the killed process, with a three-factor decomposition into macroscopic concentration, mesoscopic transport, and microscopic reactivity.<span class="footnote-ref" id="fnref3">3</span>
+</p>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §6. THE THREE-PART CRITERION ──────────── -->
+<h2><span class="section-number">6.</span> When is something one thing? A measurable criterion</h2>
+
+<p>
+The synthesis delivers a concrete, operationally measurable criterion for when a subsystem counts as a coherent unit. Three conditions, all checkable in principle by spectral and timescale analysis of the subsystem's dynamics:
+</p>
+
+<div class="callout">
+  <strong>(i)</strong> A coarse potential with <strong>metastable well structure</strong> — the system's equilibrium strongly prefers safe internal configurations.<br><br>
+  <strong>(ii)</strong> A <strong>spectral gap</strong> large enough that the principal survival mode dominates on the relevant outer timescale — the block genuinely compresses to a scalar.<br><br>
+  <strong>(iii)</strong> Coarse-state dynamics <strong>slow enough to respect the compression window</strong> — the landscape doesn't shift faster than the block can compress.
+</div>
+
+<p>
+When all three hold, the block admits a scalar interface value and the aggregation across non-transferable blocks is forced to be the weighted geometric mean. When any of the three fails, the thing hasn't cohered on that timescale, and the AM-GM composition isn't licensed.
+</p>
+
+<p>
+Return to the opening examples. The cell: its metabolic network has strong homeostatic regulation (metastable well), ATP equilibration is fast relative to acute toxin exposure (spectral compression), and the metabolic landscape doesn't shift faster than equilibration (timescale ordering). The framework predicts: one thing. The two deer: there is no resource-transfer mechanism between them, so there's no internal fiber to mix on, no well structure, no spectral gap. The framework predicts: two things. The ant colony: food sharing via regurgitation creates a resource-mixing mechanism, but whether the three conditions hold depends on the timescale. On the starvation timescale (weeks), food redistribution is probably fast enough — prediction: one thing. On the freezing timescale (minutes), individual ants can't share body heat fast enough — prediction: many things.
+</p>
+
+<p>
+These are not yet verified empirical claims. They are structural predictions that the framework makes, and they are the kind of thing that could in principle be measured. The monograph is honest about this: the bridge from the mathematical realization to real biological and agentic systems is the program's open frontier.
+</p>
+
+<figure class="figure">
+  <img src="fig4.png" alt="Three-panel spectral compression triptych showing survival probability decomposition over time. Left: early, with multiple spectral modes visible as a wiggly curve. Middle: mid-transition, with sub-leading modes fading. Right: late, with a single smooth bell-shaped principal mode — the block has compressed to a scalar.">
+  <figcaption><strong>Figure 4.</strong> Spectral compression over time. Early on, the block's survival profile depends on microstate details (multiple modes). As sub-leading modes decay, only the principal mode survives — and the block's entire future is captured by a single number.</figcaption>
+</figure>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §7. THE LOG-RATE MEETING POINT ─────────── -->
+<h2><span class="section-number">7.</span> Where the two sides meet</h2>
+
+<p>
+There's a satisfying structural observation that unifies the two sides. In the model class where the synthesis works, the outer geometric aggregation — when you take logs — becomes arithmetic:
+</p>
+
+$$\log V_\Delta = \sum_i w_i \log c_i(\Delta) \approx -\Delta \sum_i w_i \, a_1^{(i)}$$
+
+<p>
+On the left: the log of the geometric mean, which is the outer evaluator. On the right: a weighted sum of decay rates — arithmetic in the log-survival coordinate.
+</p>
+
+<p>
+So the AM-GM boundary is not a boundary between incommensurate aggregation rules. It's a boundary <em>in a single additive coordinate</em> where <em>what's being summed</em> changes. Inside the block, we sum resources. At the interface, we sum log-decay-rates. Across blocks, the sum is weighted by external scheduling. One additive structure, three levels of abstraction.
+</p>
+
+<p>
+Under slow-fast dynamics — where the block's environment itself changes over time — the log-rate generalizes to the log of a Feynman-Kac expectation, which accounts for the stochastic path of the environment. The synthesis survives this generalization, but only in certain dynamical regimes (quasi-static and fast-mixing), with explicit characterization of where it breaks and what replaces it.
+</p>
+
+<div class="section-break">· · ·</div>
+
+<!-- ── §8. CONNECTIONS ────────────────────────── -->
+<h2><span class="section-number">8.</span> Connections and what remains</h2>
+
+<p>
+The AM-GM program sits at the intersection of several existing research programs, drawing from each and connecting them:
+</p>
+
+<p>
+<strong>Garrabrant's geometric rationality</strong> identified the weighted geometric mean as the unique compositional aggregation rule across non-transferable branches. The AM-GM program takes this as a characterization of the outer edge and adds the inner edge, the interface value, and the dynamical theory of when the boundary exists. Geometric rationality tells you what to do once the branches are specified; the AM-GM program tries to tell you what counts as a branch.
+</p>
+
+<p>
+<strong>Peters's ergodicity economics</strong> explains why $E[\ln(\cdot)]$ is the right objective for systems facing multiplicative dynamics. The AM-GM program grounds this in subsystem structure: you maximize $E[\ln(\cdot)]$ because you're aggregating across non-transferable branches, and the log-rate coordinate is where inner and outer aggregation meet.
+</p>
+
+<p>
+<strong>Friston's Free Energy Principle</strong> identifies systems by Markov blankets — conditional-independence boundaries between internal and external states. The AM-GM boundary is a different kind of boundary: it's about resource transferability, not information flow. A cell, an ant colony, and a rock all have Markov blankets in some sense. The AM-GM boundary asks which of those blankets correspond to <em>coherent units for viability accounting</em>.
+</p>
+
+<p>
+<strong>What remains.</strong> The monograph is a proof-of-concept in a specific model class — reversible killed birth-death processes with Gibbs-lifted fiber dynamics. The four situations that opened this post are not yet resolved by this work. Whether real biological systems exhibit the three-part spectral structure the synthesis requires — whether cells, colonies, and forest stands satisfy the conditions on their viability timescales — is an empirical question the theory opens but does not answer. The theory tells you what to measure. Whether the measurements come out the way the theory predicts is the open frontier.
+</p>
+
+<!-- ── FOOTNOTES ──────────────────────────────── -->
+<div class="footnotes-section">
+  <p class="footnote"><span class="footnote-marker" id="fn1">1.</span> This is where the AM-GM program parts ways with Markov blanket–based individuality criteria (as in the Free Energy Principle). Markov blankets are defined by conditional independence — an information-theoretic property. The AM-GM boundary is defined by resource-transfer dynamics — a thermodynamic property. A system can have a well-defined Markov blanket and still not be a coherent unit in the AM-GM sense, if its internal resource mixing is too slow relative to hazard arrival. <a href="#fnref1">↩</a></p>
+
+  <p class="footnote"><span class="footnote-marker" id="fn2">2.</span> This also connects to the units-of-selection debate in evolutionary biology. A group counts as a "unit of selection" on a given generational timescale if its aggregate viability has interface structure on that timescale. The AM-GM program gives this informal criterion a specific mathematical operationalization. <a href="#fnref2">↩</a></p>
+
+  <p class="footnote"><span class="footnote-marker" id="fn3">3.</span> Some of the spectral results in the monograph carry "formal" status — rigorous modulo specific offstage dependencies (notably a metastable-capacity asymptotic from the Bovier-style literature) that the monograph uses but does not independently derive. The monograph is explicit about which results are fully rigorous and which are formal in this sense. <a href="#fnref3">↩</a></p>
+</div>
+
+</article>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- WIDGET SCRIPT: Two-Compartment Simulation    -->
+<!-- ════════════════════════════════════════════ -->
+<script>
+(function() {
+  const canvas = document.getElementById('compartmentCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Hi-DPI support
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = 300 * dpr;
+    canvas.style.height = '300px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // State
+  let poolA = 0.7;
+  let poolB = 0.3;
+  let time = 0;
+  let hazardTimer = 0;
+  let flashA = 0;
+  let flashB = 0;
+  let dead = false;
+  let deadPool = null;
+  const THRESHOLD = 0.12;
+  const history = { a: [], b: [] };
+  const MAX_HIST = 200;
+
+  // Controls
+  const flowSlider = document.getElementById('flowRate');
+  const hazardSlider = document.getElementById('hazardFreq');
+  const drainSlider = document.getElementById('drainSeverity');
+
+  function getFlow() { return parseFloat(flowSlider.value); }
+  function getHazardFreq() { return parseFloat(hazardSlider.value); }
+  function getDrain() { return parseFloat(drainSlider.value); }
+
+  flowSlider.addEventListener('input', () => {
+    document.getElementById('flowVal').textContent = parseFloat(flowSlider.value).toFixed(1);
+    resetSim();
+  });
+  hazardSlider.addEventListener('input', () => {
+    document.getElementById('hazardVal').textContent = parseFloat(hazardSlider.value).toFixed(1);
+    resetSim();
+  });
+  drainSlider.addEventListener('input', () => {
+    document.getElementById('drainVal').textContent = parseFloat(drainSlider.value).toFixed(2);
+    resetSim();
+  });
+
+  function resetSim() {
+    poolA = 0.5 + Math.random() * 0.3;
+    poolB = 1.0 - poolA;
+    time = 0;
+    hazardTimer = 0;
+    dead = false;
+    deadPool = null;
+    flashA = 0;
+    flashB = 0;
+    history.a.length = 0;
+    history.b.length = 0;
+  }
+
+  function updateVerdict() {
+    const ratio = getFlow() / (getHazardFreq() + 0.01);
+    const dot = document.getElementById('verdictDot');
+    const text = document.getElementById('verdictText');
+    const bar = document.getElementById('verdictBar');
+
+    if (ratio > 5) {
+      dot.style.background = '#5a9e6f';
+      text.innerHTML = '<strong>One pool.</strong> Pipe is fast relative to hazards — resources equalize before the next hit. Arithmetic regime.';
+    } else if (ratio > 1.5) {
+      dot.style.background = '#d4a54a';
+      text.innerHTML = '<strong>Transitional.</strong> Mixing partially compensates, but allocation still matters. The boundary is nearby.';
+    } else {
+      dot.style.background = '#c75a3a';
+      text.innerHTML = '<strong>Two pools.</strong> Pipe is slow relative to hazards — each compartment faces its own fate. Geometric regime.';
+    }
+  }
+
+  updateVerdict();
+  flowSlider.addEventListener('input', updateVerdict);
+  hazardSlider.addEventListener('input', updateVerdict);
+  drainSlider.addEventListener('input', updateVerdict);
+
+  const dt = 1 / 60;
+
+  function step() {
+    if (dead) {
+      if (time > 2.5) resetSim();
+      time += dt;
+      return;
+    }
+
+    const flow = getFlow();
+    const hazFreq = getHazardFreq();
+    const drain = getDrain();
+
+    // Pipe flow (toward equalization)
+    const diff = poolA - poolB;
+    const transfer = diff * flow * dt * 0.5;
+    poolA -= transfer;
+    poolB += transfer;
+
+    // Hazard events
+    hazardTimer += dt;
+    if (hazardTimer >= 1.0 / hazFreq) {
+      hazardTimer = 0;
+      // Random drain hits one compartment
+      if (Math.random() < 0.5) {
+        poolA -= drain * poolA;
+        // Redistribute slightly from total to keep total roughly stable
+        const lost = drain * poolA / (1 - drain);
+        poolB += lost * 0.3; // partial compensation from environment
+        flashA = 1.0;
+      } else {
+        poolB -= drain * poolB;
+        const lost = drain * poolB / (1 - drain);
+        poolA += lost * 0.3;
+        flashB = 1.0;
+      }
+    }
+
+    // Slow refill (to keep simulation running)
+    poolA += 0.005 * dt;
+    poolB += 0.005 * dt;
+
+    // Clamp
+    poolA = Math.max(0, Math.min(1, poolA));
+    poolB = Math.max(0, Math.min(1, poolB));
+
+    // Death check
+    if (poolA < THRESHOLD || poolB < THRESHOLD) {
+      dead = true;
+      deadPool = poolA < THRESHOLD ? 'A' : 'B';
+      time = 0;
+    }
+
+    // Flash decay
+    flashA *= 0.92;
+    flashB *= 0.92;
+
+    // History
+    history.a.push(poolA);
+    history.b.push(poolB);
+    if (history.a.length > MAX_HIST) {
+      history.a.shift();
+      history.b.shift();
+    }
+
+    time += dt;
+  }
+
+  function draw() {
+    const W = canvas.width / dpr;
+    const H = 300;
+    ctx.clearRect(0, 0, W, H);
+
+    const poolW = 120;
+    const poolH = 180;
+    const poolY = 50;
+    const gapX = 100;
+    const centerX = W * 0.32;
+    const axL = centerX - gapX / 2 - poolW;
+    const axR = centerX + gapX / 2;
+
+    // Draw threshold zone
+    const threshY = poolY + poolH - (THRESHOLD * poolH);
+    ctx.fillStyle = 'rgba(199, 90, 58, 0.06)';
+    ctx.fillRect(axL, threshY, poolW, poolY + poolH - threshY);
+    ctx.fillRect(axR, threshY, poolW, poolY + poolH - threshY);
+
+    // Threshold line
+    ctx.strokeStyle = 'rgba(199, 90, 58, 0.3)';
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(axL, threshY);
+    ctx.lineTo(axL + poolW, threshY);
+    ctx.moveTo(axR, threshY);
+    ctx.lineTo(axR + poolW, threshY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Label
+    ctx.fillStyle = 'rgba(199, 90, 58, 0.5)';
+    ctx.font = '10px "DM Sans", sans-serif';
+    ctx.fillText('death threshold', axL + 2, threshY - 4);
+
+    // Pool containers
+    ctx.strokeStyle = '#c9c2b6';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(axL, poolY, poolW, poolH);
+    ctx.strokeRect(axR, poolY, poolW, poolH);
+
+    // Fill levels
+    const fillHA = poolA * poolH;
+    const fillHB = poolB * poolH;
+
+    // Pool A
+    const colorA = flashA > 0.1
+      ? `rgba(199, 90, 58, ${0.2 + flashA * 0.4})`
+      : 'rgba(107, 163, 199, 0.35)';
+    ctx.fillStyle = colorA;
+    ctx.fillRect(axL + 1, poolY + poolH - fillHA, poolW - 2, fillHA);
+
+    // Pool B
+    const colorB = flashB > 0.1
+      ? `rgba(199, 90, 58, ${0.2 + flashB * 0.4})`
+      : 'rgba(107, 163, 199, 0.35)';
+    ctx.fillStyle = colorB;
+    ctx.fillRect(axR + 1, poolY + poolH - fillHB, poolW - 2, fillHB);
+
+    // Pool labels
+    ctx.fillStyle = '#2a2520';
+    ctx.font = '600 13px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Pool A', axL + poolW / 2, poolY + poolH + 20);
+    ctx.fillText('Pool B', axR + poolW / 2, poolY + poolH + 20);
+    ctx.textAlign = 'left';
+
+    // Level readouts
+    ctx.font = '11px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#6b6259';
+    ctx.textAlign = 'center';
+    ctx.fillText(poolA.toFixed(2), axL + poolW / 2, poolY - 8);
+    ctx.fillText(poolB.toFixed(2), axR + poolW / 2, poolY - 8);
+    ctx.textAlign = 'left';
+
+    // Pipe
+    const pipeY = poolY + poolH * 0.45;
+    const pipeH = 14;
+    ctx.fillStyle = '#e8e3da';
+    ctx.fillRect(axL + poolW, pipeY, gapX, pipeH);
+    ctx.strokeStyle = '#c9c2b6';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(axL + poolW, pipeY, gapX, pipeH);
+
+    // Flow indicator (animated dots in pipe)
+    const diff = poolA - poolB;
+    const flowSpeed = Math.abs(diff) * getFlow();
+    const numDots = Math.min(5, Math.floor(flowSpeed * 3) + 1);
+    const pipeLeft = axL + poolW;
+    const pipeMid = pipeY + pipeH / 2;
+
+    ctx.fillStyle = 'rgba(107, 163, 199, 0.7)';
+    for (let i = 0; i < numDots; i++) {
+      const phase = (time * flowSpeed * 2 + i / numDots) % 1;
+      const dotX = pipeLeft + phase * gapX;
+      ctx.beginPath();
+      ctx.arc(dotX, pipeMid, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Flow label
+    ctx.fillStyle = '#6b6259';
+    ctx.font = '9px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('pipe', axL + poolW + gapX / 2, pipeY - 5);
+    ctx.textAlign = 'left';
+
+    // History chart
+    const chartX = W * 0.62;
+    const chartW = W * 0.33;
+    const chartY = poolY + 10;
+    const chartH = poolH - 20;
+
+    // Chart background
+    ctx.fillStyle = 'rgba(240, 237, 230, 0.5)';
+    ctx.fillRect(chartX, chartY, chartW, chartH);
+    ctx.strokeStyle = '#e0dbd2';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(chartX, chartY, chartW, chartH);
+
+    // Chart title
+    ctx.fillStyle = '#6b6259';
+    ctx.font = '600 10px "DM Sans", sans-serif';
+    ctx.fillText('Resource levels over time', chartX, chartY - 6);
+
+    // Threshold on chart
+    const chartThreshY = chartY + chartH - (THRESHOLD * chartH);
+    ctx.strokeStyle = 'rgba(199, 90, 58, 0.25)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(chartX, chartThreshY);
+    ctx.lineTo(chartX + chartW, chartThreshY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw history lines
+    if (history.a.length > 1) {
+      const drawLine = (data, color) => {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        for (let i = 0; i < data.length; i++) {
+          const x = chartX + (i / MAX_HIST) * chartW;
+          const y = chartY + chartH - data[i] * chartH;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      };
+      drawLine(history.a, 'rgba(107, 163, 199, 0.8)');
+      drawLine(history.b, 'rgba(196, 132, 29, 0.8)');
+    }
+
+    // Legend
+    ctx.font = '10px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(107, 163, 199, 0.9)';
+    ctx.fillText('● A', chartX + chartW - 45, chartY + chartH + 16);
+    ctx.fillStyle = 'rgba(196, 132, 29, 0.9)';
+    ctx.fillText('● B', chartX + chartW - 18, chartY + chartH + 16);
+
+    // Dead overlay
+    if (dead) {
+      ctx.fillStyle = 'rgba(199, 90, 58, 0.12)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#c75a3a';
+      ctx.font = '600 16px "DM Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Pool ${deadPool} died — resetting...`, W / 2, H / 2 - 30);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function loop() {
+    step();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+})();
+</script>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- WIDGET SCRIPT: Kelly / Ergodicity Demo       -->
+<!-- ════════════════════════════════════════════ -->
+<script>
+(function() {
+  const canvas = document.getElementById('kellyCanvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = 320 * dpr;
+    canvas.style.height = '320px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', () => { resizeCanvas(); draw(); });
+
+  const NUM_AGENTS = 50;
+  let trajectories = [];
+  let ensembleMean = [];
+  let geoMean = [];
+
+  const winProbSlider = document.getElementById('winProb');
+  const betFracSlider = document.getElementById('betFrac');
+  const roundsSlider = document.getElementById('rounds');
+  const resimBtn = document.getElementById('kellyResim');
+
+  function getP() { return parseFloat(winProbSlider.value); }
+  function getF() { return parseFloat(betFracSlider.value); }
+  function getT() { return parseInt(roundsSlider.value); }
+
+  function simulate() {
+    const p = getP();
+    const f = getF();
+    const T = getT();
+
+    trajectories = [];
+    ensembleMean = new Array(T + 1).fill(0);
+    geoMean = new Array(T + 1).fill(0);
+
+    for (let a = 0; a < NUM_AGENTS; a++) {
+      const traj = [1.0];
+      for (let t = 1; t <= T; t++) {
+        const prev = traj[t - 1];
+        if (Math.random() < p) {
+          traj.push(prev * (1 + f));
+        } else {
+          traj.push(prev * (1 - f));
+        }
+      }
+      trajectories.push(traj);
+    }
+
+    // Compute ensemble (arithmetic) mean and geometric mean at each step
+    for (let t = 0; t <= T; t++) {
+      let sum = 0;
+      let logSum = 0;
+      for (let a = 0; a < NUM_AGENTS; a++) {
+        sum += trajectories[a][t];
+        logSum += Math.log(Math.max(trajectories[a][t], 1e-15));
+      }
+      ensembleMean[t] = sum / NUM_AGENTS;
+      geoMean[t] = Math.exp(logSum / NUM_AGENTS);
+    }
+
+    updateStats();
+    draw();
+  }
+
+  function updateStats() {
+    const p = getP();
+    const f = getF();
+    const T = getT();
+
+    document.getElementById('winProbVal').textContent = p.toFixed(2);
+    document.getElementById('betFracVal').textContent = f.toFixed(2);
+    document.getElementById('roundsVal').textContent = T;
+
+    // Kelly optimal fraction
+    const kellyF = 2 * p - 1; // for 1:1 payout
+    // Expected log growth rate
+    const g = p * Math.log(1 + f) + (1 - p) * Math.log(1 - f);
+
+    const broke = trajectories.filter(t => t[T] < 0.01).length;
+
+    document.getElementById('kellyStats').textContent =
+      `Kelly optimal: ${(kellyF * 100).toFixed(0)}% · E[ln growth]: ${g.toFixed(3)}/round · Broke (< 1%): ${broke}/${NUM_AGENTS}`;
+
+    // Update verdict
+    const dot = document.getElementById('kellyDot');
+    const text = document.getElementById('kellyText');
+    if (g > 0.01) {
+      dot.style.background = '#5a9e6f';
+      text.innerHTML = '<strong>Growth regime.</strong> The geometric mean grows — most agents do well. Current bet fraction is sustainable.';
+    } else if (g > -0.005) {
+      dot.style.background = '#d4a54a';
+      text.innerHTML = '<strong>Near break-even.</strong> The geometric mean is roughly flat. Close to the boundary between growth and ruin.';
+    } else {
+      dot.style.background = '#8b2232';
+      text.innerHTML = '<strong>Ruin regime.</strong> The ensemble average may rise, but the geometric mean falls — most individual agents go broke. The arithmetic mean is a lie.';
+    }
+  }
+
+  function draw() {
+    const W = canvas.width / dpr;
+    const H = 320;
+    const T = getT();
+    ctx.clearRect(0, 0, W, H);
+
+    const pad = { top: 25, right: 20, bottom: 40, left: 55 };
+    const plotW = W - pad.left - pad.right;
+    const plotH = H - pad.top - pad.bottom;
+
+    // Determine y range (log scale)
+    let allVals = [];
+    for (const t of trajectories) allVals.push(...t);
+    allVals.push(...ensembleMean, ...geoMean);
+    allVals = allVals.filter(v => v > 0);
+
+    let logMin = Math.log(Math.max(Math.min(...allVals), 1e-6));
+    let logMax = Math.log(Math.max(...allVals));
+
+    // Add some padding
+    const logRange = logMax - logMin || 1;
+    logMin -= logRange * 0.05;
+    logMax += logRange * 0.05;
+
+    function toX(t) { return pad.left + (t / T) * plotW; }
+    function toY(v) {
+      const lv = Math.log(Math.max(v, 1e-10));
+      return pad.top + plotH - ((lv - logMin) / (logMax - logMin)) * plotH;
+    }
+
+    // Grid
+    ctx.strokeStyle = '#eae6df';
+    ctx.lineWidth = 1;
+    // Horizontal: at powers of 10
+    const minPow = Math.floor(logMin / Math.LN10);
+    const maxPow = Math.ceil(logMax / Math.LN10);
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#a09889';
+    ctx.textAlign = 'right';
+    for (let pow = minPow; pow <= maxPow; pow++) {
+      const v = Math.pow(10, pow);
+      const y = toY(v);
+      if (y >= pad.top && y <= pad.top + plotH) {
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(pad.left + plotW, y);
+        ctx.stroke();
+        let label;
+        if (pow >= 0 && pow <= 3) label = v.toFixed(0);
+        else if (pow < 0) label = v.toFixed(Math.abs(pow));
+        else label = `1e${pow}`;
+        ctx.fillText(label, pad.left - 8, y + 3.5);
+      }
+    }
+
+    // Starting value line
+    const startY = toY(1);
+    if (startY >= pad.top && startY <= pad.top + plotH) {
+      ctx.strokeStyle = '#d0cbc3';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, startY);
+      ctx.lineTo(pad.left + plotW, startY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Axes labels
+    ctx.fillStyle = '#6b6259';
+    ctx.font = '11px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Round', pad.left + plotW / 2, H - 5);
+
+    ctx.save();
+    ctx.translate(14, pad.top + plotH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Bankroll (log scale)', 0, 0);
+    ctx.restore();
+
+    // Individual trajectories
+    ctx.globalAlpha = 0.12;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#8b7e6f';
+    for (const traj of trajectories) {
+      ctx.beginPath();
+      for (let t = 0; t <= T; t++) {
+        const x = toX(t);
+        const y = toY(traj[t]);
+        if (t === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1.0;
+
+    // Ensemble mean (crimson)
+    ctx.strokeStyle = '#8b2232';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let t = 0; t <= T; t++) {
+      const x = toX(t);
+      const y = toY(ensembleMean[t]);
+      if (t === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Geometric mean (amber)
+    ctx.strokeStyle = '#c4841d';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let t = 0; t <= T; t++) {
+      const x = toX(t);
+      const y = toY(geoMean[t]);
+      if (t === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Legend
+    ctx.font = '600 11px "DM Sans", sans-serif';
+    const legX = pad.left + plotW - 160;
+    const legY = pad.top + 14;
+
+    ctx.strokeStyle = '#8b2232';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(legX, legY);
+    ctx.lineTo(legX + 20, legY);
+    ctx.stroke();
+    ctx.fillStyle = '#8b2232';
+    ctx.textAlign = 'left';
+    ctx.fillText('Ensemble mean (AM)', legX + 26, legY + 4);
+
+    ctx.strokeStyle = '#c4841d';
+    ctx.beginPath();
+    ctx.moveTo(legX, legY + 18);
+    ctx.lineTo(legX + 20, legY + 18);
+    ctx.stroke();
+    ctx.fillStyle = '#c4841d';
+    ctx.fillText('Geometric mean (GM)', legX + 26, legY + 22);
+  }
+
+  // Events
+  winProbSlider.addEventListener('input', simulate);
+  betFracSlider.addEventListener('input', simulate);
+  roundsSlider.addEventListener('input', simulate);
+  resimBtn.addEventListener('click', simulate);
+
+  // Initial simulation
+  simulate();
+})();
+</script>
+
+</body>
+</html>
