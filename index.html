@@ -457,7 +457,7 @@
     The AM-GM boundary: a mathematical theory of when subsystems compose into coherent units, and why arithmetic gives way to geometry at the edge.
   </div>
   <div class="meta">
-    Haru Kim · April 2026 · <a href="#">Companion to the technical monograph</a>
+    Haru Kim · April 2026 · <a href="#">Companion technical monograph</a> (request for access)
   </div>
 </header>
 
@@ -618,6 +618,22 @@ This is just the chain rule for independent events. Nothing controversial. But i
   <div class="widget-title">Interactive · Ensemble Average vs. Time Average</div>
   <canvas id="kellyCanvas" width="680" height="320" style="width:100%; border-radius: 4px;"></canvas>
 
+  <div id="youOutcome" style="
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    margin-top: 0.6rem;
+    background: var(--bg);
+    border-radius: 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  ">
+    <span style="color: #2d7d9a; font-weight: 600;">⬤ You (one random agent):</span>
+    <span id="youResult" style="font-family: var(--font-mono); font-size: 0.85rem;"></span>
+  </div>
+
   <div class="verdict-bar" id="kellyVerdict">
     <div class="verdict-indicator" id="kellyDot" style="background: #8b2232;"></div>
     <span id="kellyText">The ensemble average (arithmetic mean across all trajectories) goes up. The typical trajectory (geometric mean) goes down. Most individuals go broke.</span>
@@ -654,7 +670,7 @@ This is just the chain rule for independent events. Nothing controversial. But i
   </div>
 
   <div class="widget-caption">
-    Each thin line is one agent's bankroll over time under repeated multiplicative bets. The <strong style="color: #8b2232;">crimson line</strong> is the ensemble average (arithmetic mean across agents). The <strong style="color: #c4841d;">amber line</strong> is the geometric mean. For most bet fractions, the ensemble average rises while the typical agent goes broke — the arithmetic mean is misleading. Try dragging the bet fraction to find the Kelly-optimal point.
+    Each thin gray line is one agent's bankroll over time under repeated multiplicative bets. The <strong style="color: #2d7d9a;">teal line</strong> is you — one randomly chosen agent. The <strong style="color: #8b2232;">crimson line</strong> is the ensemble average (arithmetic mean across all 300 agents). The <strong style="color: #c4841d;">amber line</strong> is the geometric mean (the typical outcome). The key insight: the "average" can look great while <em>you personally</em> go broke. Try raising the bet fraction above the Kelly optimal and re-simulating a few times.
   </div>
 </div>
 
@@ -663,7 +679,7 @@ The same logic applies when we aggregate <em>across</em> independent units at a 
 </p>
 
 <p>
-But "it's geometric because survival is multiplicative" is only half the story. The deeper result, due to <a href="https://www.lesswrong.com/posts/3nMpdRRdsDjmacstv/geometric-rationality-is-not-about-kelly-betting">Garrabrant</a> and formalized in the companion monograph, is that the weighted geometric mean is the <em>unique</em> aggregation rule satisfying a small set of compositional axioms. You don't choose it. It's forced.
+But "it's geometric because survival is multiplicative" is only half the story. The deeper result, due to <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant</a> and formalized in the companion monograph, is that the weighted geometric mean is the <em>unique</em> aggregation rule satisfying a small set of compositional axioms. You don't choose it. It's forced.
 </p>
 
 <details class="formal">
@@ -850,7 +866,7 @@ The AM-GM program sits at the intersection of several existing research programs
 </p>
 
 <p>
-<strong>Garrabrant's geometric rationality</strong> identified the weighted geometric mean as the unique compositional aggregation rule across non-transferable branches. The AM-GM program takes this as a characterization of the outer edge and adds the inner edge, the interface value, and the dynamical theory of when the boundary exists. Geometric rationality tells you what to do once the branches are specified; the AM-GM program tries to tell you what counts as a branch.
+<strong><a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant's geometric rationality</a></strong> identified the weighted geometric mean as the unique compositional aggregation rule across non-transferable branches. The AM-GM program takes this as a characterization of the outer edge and adds the inner edge, the interface value, and the dynamical theory of when the boundary exists. Geometric rationality tells you what to do once the branches are specified; the AM-GM program tries to tell you what counts as a branch.
 </p>
 
 <p>
@@ -1239,10 +1255,11 @@ The AM-GM program sits at the intersection of several existing research programs
   resizeCanvas();
   window.addEventListener('resize', () => { resizeCanvas(); draw(); });
 
-  const NUM_AGENTS = 50;
+  const NUM_AGENTS = 300;
   let trajectories = [];
   let ensembleMean = [];
   let geoMean = [];
+  let youIndex = 0;
 
   const winProbSlider = document.getElementById('winProb');
   const betFracSlider = document.getElementById('betFrac');
@@ -1287,6 +1304,9 @@ The AM-GM program sits at the intersection of several existing research programs
       geoMean[t] = Math.exp(logSum / NUM_AGENTS);
     }
 
+    // Pick a random "you"
+    youIndex = Math.floor(Math.random() * NUM_AGENTS);
+
     updateStats();
     draw();
   }
@@ -1309,6 +1329,17 @@ The AM-GM program sits at the intersection of several existing research programs
 
     document.getElementById('kellyStats').textContent =
       `Kelly optimal: ${(kellyF * 100).toFixed(0)}% · E[ln growth]: ${g.toFixed(3)}/round · Broke (< 1%): ${broke}/${NUM_AGENTS}`;
+
+    // "You" outcome
+    const youFinal = trajectories[youIndex] ? trajectories[youIndex][T] : 1;
+    const youEl = document.getElementById('youResult');
+    if (youFinal < 0.01) {
+      youEl.innerHTML = `After ${T} rounds your $1.00 became <strong style="color: #8b2232;">$${youFinal.toFixed(youFinal < 0.001 ? 6 : 4)}</strong> — you're broke.`;
+    } else if (youFinal < 1) {
+      youEl.innerHTML = `After ${T} rounds your $1.00 became <strong style="color: #d4a54a;">$${youFinal.toFixed(2)}</strong> — you lost money.`;
+    } else {
+      youEl.innerHTML = `After ${T} rounds your $1.00 became <strong style="color: #5a9e6f;">$${youFinal.toFixed(2)}</strong> — you profited.`;
+    }
 
     // Update verdict
     const dot = document.getElementById('kellyDot');
@@ -1405,7 +1436,7 @@ The AM-GM program sits at the intersection of several existing research programs
     ctx.restore();
 
     // Individual trajectories
-    ctx.globalAlpha = 0.12;
+    ctx.globalAlpha = 0.06;
     ctx.lineWidth = 1;
     ctx.strokeStyle = '#8b7e6f';
     for (const traj of trajectories) {
@@ -1444,28 +1475,50 @@ The AM-GM program sits at the intersection of several existing research programs
     }
     ctx.stroke();
 
+    // "You" trajectory (teal)
+    if (trajectories[youIndex]) {
+      ctx.strokeStyle = '#2d7d9a';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let t = 0; t <= T; t++) {
+        const x = toX(t);
+        const y = toY(trajectories[youIndex][t]);
+        if (t === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
     // Legend
     ctx.font = '600 11px "DM Sans", sans-serif';
-    const legX = pad.left + plotW - 160;
+    const legX = pad.left + plotW - 180;
     const legY = pad.top + 14;
 
-    ctx.strokeStyle = '#8b2232';
+    ctx.strokeStyle = '#2d7d9a';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.moveTo(legX, legY);
     ctx.lineTo(legX + 20, legY);
     ctx.stroke();
-    ctx.fillStyle = '#8b2232';
+    ctx.fillStyle = '#2d7d9a';
     ctx.textAlign = 'left';
-    ctx.fillText('Ensemble mean (AM)', legX + 26, legY + 4);
+    ctx.fillText('You (one agent)', legX + 26, legY + 4);
 
-    ctx.strokeStyle = '#c4841d';
+    ctx.strokeStyle = '#8b2232';
     ctx.beginPath();
     ctx.moveTo(legX, legY + 18);
     ctx.lineTo(legX + 20, legY + 18);
     ctx.stroke();
+    ctx.fillStyle = '#8b2232';
+    ctx.fillText('Ensemble mean (AM)', legX + 26, legY + 22);
+
+    ctx.strokeStyle = '#c4841d';
+    ctx.beginPath();
+    ctx.moveTo(legX, legY + 36);
+    ctx.lineTo(legX + 20, legY + 36);
+    ctx.stroke();
     ctx.fillStyle = '#c4841d';
-    ctx.fillText('Geometric mean (GM)', legX + 26, legY + 22);
+    ctx.fillText('Geometric mean (GM)', legX + 26, legY + 40);
   }
 
   // Events
