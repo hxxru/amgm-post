@@ -454,10 +454,10 @@
   <div class="kicker">Agent Foundations</div>
   <h1>What Makes Something One&nbsp;Thing?</h1>
   <div class="subtitle">
-    The AM-GM boundary: a mathematical theory of when subsystems compose into coherent units, and why arithmetic gives way to geometry at the edge.
+    Everybody asks how parts become wholes. I want to know when wholes become parts.
   </div>
   <div class="meta">
-    Haru Kim · April 2026 · Companion to the <a href="https://osf.io/t2z36/overview?view_only=17d3a48265ed407488eebfad31e4d676">technical monograph (link)</a>
+    Haru Kim · May 2026 · Companion to the <a href="monograph.pdf">technical monograph</a>
   </div>
 </header>
 
@@ -491,15 +491,19 @@ A forest stand of trees is connected by mycorrhizal networks. Trees in shade rec
 </figure>
 
 <p>
-The cell and the deer feel like clear cases. The colony and the forest feel harder. But what <em>exactly</em> distinguishes them? What makes the cell a unified individual, the two deer separate individuals, and the colony and forest intermediate?
+The cell and the deer feel like clear cases. The colony and the forest feel harder. But what <em>exactly</em> distinguishes them?
 </p>
 
 <p>
-The obvious answer — the thing with its own membrane is the individual — is wrong. It fails immediately on the ant colony, which has no membrane. It fails on conjoined twins sharing a circulatory system. It fails on the forest stand. Something else is doing the work.
+The membrane answer — the thing with its own boundary is the individual — doesn't work. It fails on the ant colony (no membrane), on conjoined twins (shared circulatory system), and on the forest stand (boundaries everywhere and nowhere). Some other criterion is doing the work.
 </p>
 
 <p>
-This post introduces a research program that proposes a specific answer. The answer is mathematical, and it is about <em>transferability over time</em>.
+There are lots of theories of how parts become wholes — Markov blankets, information-theoretic autonomy, various biological-individuality criteria. I've spent the last year on the reverse question: when does a whole become available as a <em>part</em>? When does a bounded system produce a summary of itself that the rest of the world can use?
+</p>
+
+<p>
+The answer turns out to be mathematical, and it's about <em>time</em>.
 </p>
 
 <div class="section-break">· · ·</div>
@@ -508,31 +512,31 @@ This post introduces a research program that proposes a specific answer. The ans
 <h2><span class="section-number">2.</span> Compensation before catastrophe</h2>
 
 <p>
-Here is the claim: a coherent unit is a region within which losses to one part can be compensated by gains to another part <em>before the next viability-relevant event</em>. The boundary of the unit is where this compensation breaks down.
+Here is the claim: a coherent unit is a region where losses to one part can be compensated by gains to another <em>before the next viability-relevant event</em>. The boundary of the unit is where compensation breaks down.
 </p>
 
 <p>
-Inside the boundary, resources pool. The cell's ATP diffuses freely; only the total energy budget matters, not which mitochondrion produced it. Outside the boundary, each unit faces its own fate. The two deer each survive or starve independently; the first deer's caloric surplus cannot reach the second.
+Inside the boundary, resources pool. The cell's ATP diffuses freely; only the total energy budget matters, not which mitochondrion produced it. Outside the boundary, each unit faces its own fate. The two deer survive or starve independently; the first deer's surplus cannot reach the second.
 </p>
 
 <p>
-The critical insight — the thing that separates this from simpler accounts of individuality — is that the boundary is determined by a <em>timescale comparison</em>. It's not enough that resources <em>can</em> transfer between parts. They have to transfer <em>fast enough relative to how often danger arrives</em>.
+The boundary is a timescale comparison. It's not enough that resources <em>can</em> transfer between parts. They have to transfer <em>fast enough relative to how often danger arrives</em>.
 </p>
 
 <p>
-Consider the ant colony again. Worker ants share food by regurgitation, but this takes time — the food has to pass mouth-to-mouth through a chain of intermediaries. If a sudden cold snap can kill a hungry ant in minutes, but food redistribution takes hours, then on the timescale of cold snaps, the colony is many things. Each ant faces the cold alone. But if starvation takes weeks and food redistribution takes hours, then on the starvation timescale, the colony is one thing. Its food supply is effectively pooled.
+Consider the ant colony again. Worker ants share food by regurgitation, but this takes time — the food passes mouth-to-mouth through a chain of intermediaries. If a sudden cold snap kills a hungry ant in minutes, but food redistribution takes hours, then on the cold-snap timescale the colony is many things. Each ant faces the cold alone. If starvation takes weeks and redistribution takes hours, the colony is one thing on the starvation timescale. Its food supply is effectively pooled.
 </p>
 
 <p>
-Same physical system. Different timescales. Different answers.
+The same physical system gives different answers depending on which timescale you ask about, and that's not a weakness of the framework — it's the point.
 </p>
 
 <p>
-This is worth sitting with, because it rules out a lot of candidate theories. The boundary isn't spatial — two deer standing side by side are two units because there's no calorie-transfer mechanism, regardless of proximity. The boundary isn't structural — it depends on dynamics, not topology. And the boundary isn't a modeling choice — it's a fact about the system's dynamics, specifically about whether redistribution completes before the next hazard arrives.<span class="footnote-ref" id="fnref1">1</span>
+This rules out a lot of candidate theories at once. The boundary isn't spatial — two deer standing side by side are two units because there's no calorie-transfer mechanism, regardless of proximity. The boundary isn't structural — it depends on dynamics, not topology. And the boundary isn't a modeling choice — it's a fact about the system, specifically about whether redistribution completes before the next hazard arrives.<span class="footnote-ref" id="fnref1">1</span>
 </p>
 
 <p>
-A toy model makes this concrete. Imagine two compartments connected by a pipe, with a periodic drain that kills any compartment whose level falls below a threshold.
+Here's the toy model. Two compartments connected by a pipe, with a periodic drain that kills any compartment whose level falls below a threshold:
 </p>
 
 <!-- ── WIDGET: Two-compartment simulation ────── -->
@@ -566,12 +570,17 @@ A toy model makes this concrete. Imagine two compartments connected by a pipe, w
 </div>
 
 <p>
-The widget above captures the core intuition. When the pipe is fast relative to hazard arrival, the two compartments equalize before the next drain hits — they survive or fail together, as a single pooled resource. When the pipe is slow, each compartment is on its own. The system crosses a boundary — smoothly but decisively — as you change the ratio of flow rate to hazard frequency.
+When the pipe is fast relative to hazard arrival, the two compartments equalize before the next drain — they survive or fail together, as one pool. When the pipe is slow, each compartment is on its own. The system crosses from arithmetic (pooled resources) to geometric (independent survival) as you change the flow-to-hazard ratio.
 </p>
 
 <p>
-We call this the <strong>AM-GM boundary</strong>, for reasons that will become clear in the next section: it is the dynamical location where <em>arithmetic</em> aggregation (pooling resources, taking totals) gives way to <em>geometric</em> aggregation (composing independent survival probabilities). The name comes from the AM-GM inequality, but the object it names is a specific dynamical boundary, not the classical inequality itself.
+I call this the <strong>AM-GM boundary</strong>, a term coined by Scott Garrabrant in his geometric rationality sequence<span class="footnote-ref" id="fnref4">4</span> — the dynamical location where <em>arithmetic</em> aggregation (pooling, totals) gives way to <em>geometric</em> aggregation (composing independent survival probabilities).
 </p>
+
+<figure class="figure">
+  <img src="flagship.png" alt="Two-panel diagram. Left side shows an ant colony in two scenarios: panel A where food is equalized before a slow cold snap (colony survives as one unit) and panel B where a fast cold snap arrives before redistribution (each ant faces it alone). Right side shows corresponding spectral mode diagrams: in panel A, non-principal modes decay before the hazard arrives (g delta much greater than 1), producing a scalar interface; in panel B, the hazard arrives while multiple modes are still active (g delta approximately 1), and the system answers as parts. Dotted arrows bridge biological and mathematical descriptions.">
+  <figcaption><strong>Figure 2.</strong> The AM-GM boundary as a race between internal mixing and external hazard. Left: an ant colony redistributing food by regurgitation. In panel A, a slow cold snap gives the colony time to equalize — it survives as one unit. In panel B, a fast cold snap arrives before redistribution completes — each ant faces the cold alone. Right: the same race in spectral language. Mode amplitudes &phi;<sub>1</sub>, &hellip;, &phi;<sub>5</sub> represent the system's internal degrees of freedom; the spectral gap <em>g</em> controls how fast non-principal modes decay. When compression finishes before the hazard (<em>g</em>&Delta; &gg; 1, panel A), a scalar interface is available and the system answers as one thing. When the hazard arrives first (<em>g</em>&Delta; &sim; 1, panel B), multiple modes are still active and the system answers as parts.</figcaption>
+</figure>
 
 <div class="section-break">· · ·</div>
 
@@ -579,17 +588,13 @@ We call this the <strong>AM-GM boundary</strong>, for reasons that will become c
 <h2><span class="section-number">3.</span> Why geometric? The aggregation switch</h2>
 
 <p>
-Once you're outside the boundary — once each unit is facing its own hazards independently — something mathematically precise happens to the aggregation rule. Survival over repeated rounds becomes <em>multiplicative</em>.
-</p>
-
-<p>
-This is easiest to see with a simple example. Suppose you have two independent ventures, each of which survives each round with some probability. After $T$ rounds, each venture's cumulative survival is the product of its per-round survival probabilities:
+Once you're outside the boundary — once each unit faces its own hazards independently — survival becomes multiplicative. After $T$ rounds, cumulative survival is the product of per-round factors:
 </p>
 
 $$P(\text{survive } T \text{ rounds}) = \prod_{t=1}^{T} p_t$$
 
 <p>
-This is just the chain rule for independent events. Nothing controversial. But it has a non-obvious consequence for how we should evaluate and compare independent ventures: the long-run fate of a multiplicative process is governed by the <em>geometric</em> mean of its per-round factors, not the arithmetic mean.
+This is the chain rule for independent events, nothing controversial, but it has a non-obvious consequence: the long-run fate of a multiplicative process is governed by the <em>geometric</em> mean, not the arithmetic mean.
 </p>
 
 <details class="formal">
@@ -675,11 +680,11 @@ This is just the chain rule for independent events. Nothing controversial. But i
 </div>
 
 <p>
-The same logic applies when we aggregate <em>across</em> independent units at a single time-step, rather than <em>across</em> time-steps for a single unit. If two units face independent hazards and neither can bail the other out, then evaluating their combined viability is a geometric-mean problem, not an arithmetic-mean problem.
+Same logic applies when aggregating across independent units at a single time, not just across time for a single unit. Two units facing independent hazards with no mutual bailout? Evaluating their combined viability is a geometric-mean problem.
 </p>
 
 <p>
-But "it's geometric because survival is multiplicative" is only half the story. The deeper result, due to <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant</a> and formalized in the companion monograph, is that the weighted geometric mean is the <em>unique</em> aggregation rule satisfying a small set of compositional axioms. You don't choose it. It's forced.
+But "geometric because multiplicative" is the obvious part. The real result, from <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant</a> and formalized in the monograph, is that the weighted geometric mean is <em>forced</em> — it's the unique aggregation rule satisfying a small set of compositional axioms. You don't choose it. It's the only option.
 </p>
 
 <details class="formal">
@@ -713,28 +718,32 @@ But "it's geometric because survival is multiplicative" is only half the story. 
 </details>
 
 <p>
-So the picture is: inside the boundary, pooling works and only totals matter (arithmetic). Outside, each unit's survival composes multiplicatively, and the forced evaluator across units is the weighted geometric mean. The AM-GM boundary is where one gives way to the other.
+So: inside the boundary, pooling works and only totals matter (arithmetic). Outside, each unit's survival composes multiplicatively, and the forced evaluator across units is the weighted geometric mean. The AM-GM boundary is where one gives way to the other.
 </p>
 
 <p>
-The connection to expected-log maximization should be visible. Maximizing $E[\ln X]$ — the strategy mandated by the Kelly criterion, by Peters's ergodicity economics, and by Garrabrant's geometric rationality — is maximizing the geometric mean of outcomes. The AM-GM program gives this a structural grounding: you maximize $E[\ln X]$ when you're aggregating across non-transferable branches, and the reason those branches are non-transferable is a dynamical fact about the system — specifically, about where the AM-GM boundary falls.<span class="footnote-ref" id="fnref2">2</span>
+The connection to expected-log maximization is direct. Maximizing $E[\ln X]$ — the strategy mandated by the Kelly criterion, by Peters's ergodicity economics, and by Garrabrant's geometric rationality — is maximizing the geometric mean of outcomes. AM-GM gives this a structural grounding: you maximize $E[\ln X]$ when you're aggregating across non-transferable branches, and the branches are non-transferable because of a dynamical fact about where the AM-GM boundary falls.<span class="footnote-ref" id="fnref2">2</span>
 </p>
 
 <div class="section-break">· · ·</div>
 
 <!-- ── §4. THE INTERFACE VALUE ────────────────── -->
-<h2><span class="section-number">4.</span> The interface value: compression at the boundary</h2>
+<h2><span class="section-number">4.</span> Individuality as compression</h2>
 
 <p>
-The picture so far has two clean edges: arithmetic inside, geometric outside. But the hard problem is at the boundary itself. What, precisely, does the inside hand off to the outside?
+The picture so far has two edges: arithmetic inside, geometric outside. But the hard problem is at the boundary itself. What does the inside hand off to the outside?
 </p>
 
 <p>
-The answer is an object called the <strong>interface value</strong>: a single positive number that summarizes a block's entire internal state, for the purposes of cross-block composition. Think of it as a compression operation. The block's internal state is high-dimensional — which mitochondria are active, how the ATP is distributed, what the current allocation looks like. But for the outside world to aggregate across blocks using the geometric mean, each block has to compress down to a scalar.
+The answer is an object I call the <strong>interface value</strong>: a single positive number that summarizes a block's entire internal state for the purposes of cross-block composition.
 </p>
 
 <p>
-The interface value has to satisfy three requirements:
+What that sentence means philosophically is that a block is "one thing" when the outside no longer needs to know its internal microstate to evaluate its continuation — the block has a high-dimensional internal state (which mitochondria are active, how ATP is distributed, what the current allocation looks like), and all of that detail gets compressed into a single number, so the outside doesn't need to know <em>how</em> you're arranged inside, only the number you emit at the interface.
+</p>
+
+<p>
+Individuality, on this account, is successful loss of internal detail, and a thing becomes one thing exactly when its internals have been erased — on the relevant timescale — to the point where only a scalar summary survives. Three requirements keep this from being circular:
 </p>
 
 <div class="callout">
@@ -744,7 +753,15 @@ The interface value has to satisfy three requirements:
 </div>
 
 <p>
-This is where the program gets technically demanding. Constructing an interface value that satisfies all three requirements — and proving that it does — requires navigating three obstructions that the monograph identifies and resolves in a specific model class. The informal version:
+The first requirement is carrying the philosophical load: "scalar compression" means the block's future, as seen by anyone outside it, depends on this one number alone, and if the future still depends on which microstate you're in — if you haven't compressed yet — you haven't produced an interface value, and you aren't one thing for that question.
+</p>
+
+<p>
+This reframes "what is an agent?" as "when does the interface value exist?" And it connects to self-modeling in a way I find genuinely exciting: a self-model, on this reading, is a dynamical compression that makes the agent's future behavior microstate-agnostic. The spectral gap — the rate at which internal detail decays — is the precision of the self-model's attractor. If the gap is small relative to the hazard timescale, the self-model hasn't stabilized, and the system drifts relative to its own purported identity.
+</p>
+
+<p>
+Getting from this definition to an actual construction requires navigating three obstructions that the monograph identifies and resolves:
 </p>
 
 <details class="formal">
@@ -763,7 +780,7 @@ This is where the program gets technically demanding. Constructing an interface 
 </details>
 
 <p>
-The interface value is the conceptual crux of the program. It's the object that <em>makes the boundary well-defined</em> rather than metaphorical. If the interface value exists and is well-behaved, the block is a coherent unit. If it doesn't — if the block's future depends on internal details that can't be absorbed into a single number — the block hasn't cohered. "What is an agent?" becomes "when does the interface value exist?"
+Without the interface value, the boundary is a metaphor — "arithmetic inside, geometric outside" is just a slogan about two aggregation rules that happen to apply in different regimes. With it, the boundary is a specific mathematical object: the place where a high-dimensional internal state compresses to a scalar that the outside world can act on, and the conditions under which that compression succeeds or fails are what determine whether the system counts as one thing.
 </p>
 
 <figure class="figure">
@@ -777,16 +794,16 @@ The interface value is the conceptual crux of the program. It's the object that 
 <h2><span class="section-number">5.</span> Why naive models fail (and what fixes them)</h2>
 
 <p>
-The monograph's technical core constructs a specific model class in which the interface value can be exhibited, computed, and verified. The model is a reversible birth-death chain on a fixed-total fiber — think of it as a toy version of "some conserved resource being randomly redistributed among components, with death when any component drops too low."
+The monograph constructs a specific model class where the interface value can be exhibited, computed, and verified: a reversible birth-death chain on a fixed-total fiber. Think of it as "some conserved resource being randomly redistributed among components, with death when any component drops too low."
 </p>
 
 <p>
-The first result is a <em>negative</em> one, and it's instructive. In the simplest version — uniform random redistribution with no further structure — the construction fails. The block's internal mixing time and its effective hazard time are the same order of magnitude (both scale as $R^2$ where $R$ is the total resource). There's no temporal window in which the block has equilibrated internally but hasn't yet died. The interface value doesn't exist.
+The first result is negative, and that's the point. In the simplest version — uniform random redistribution with no further structure — the construction fails. The block's internal mixing time and its hazard time are the same order of magnitude (both scale as $R^2$). There's no temporal window where the block has equilibrated internally but hasn't yet died. There's no temporal window where the block has equilibrated internally but hasn't yet died, which means the interface value doesn't exist in this class.
 </p>
 
 <figure class="figure">
   <img src="fig2.png" alt="Two side-by-side energy landscape diagrams. Left: flat landscape where mixing time and hazard time are the same order (fails to produce a scalar interface value). Right: Gibbs-lifted landscape with a deep potential well, where mixing is fast within the well but escape to the danger zone is exponentially rare, creating timescale separation.">
-  <figcaption><strong>Figure 2.</strong> The structural ingredient that makes the interface value work. A flat energy landscape gives no timescale separation; a Gibbs-lifted landscape concentrates the system in safe configurations, making escape to the danger zone exponentially rare.</figcaption>
+  <figcaption><strong>Figure 4.</strong> The structural ingredient that makes the interface value work. A flat energy landscape gives no timescale separation; a Gibbs-lifted landscape concentrates the system in safe configurations, making escape to the danger zone exponentially rare.</figcaption>
 </figure>
 
 <p>
@@ -807,7 +824,7 @@ The hazard rate becomes exponentially small in the resource level (the system si
 <h2><span class="section-number">6.</span> When is something one thing? A measurable criterion</h2>
 
 <p>
-The synthesis delivers a concrete, operationally measurable criterion for when a subsystem counts as a coherent unit. Three conditions, all checkable in principle by spectral and timescale analysis of the subsystem's dynamics:
+The synthesis gives a concrete criterion for when a subsystem counts as a coherent unit. Three conditions, all checkable in principle:
 </p>
 
 <div class="callout">
@@ -821,16 +838,16 @@ When all three hold, the block admits a scalar interface value and the aggregati
 </p>
 
 <p>
-Return to the opening examples. The cell: its metabolic network has strong homeostatic regulation (metastable well), ATP equilibration is fast relative to acute toxin exposure (spectral compression), and the metabolic landscape doesn't shift faster than equilibration (timescale ordering). The framework predicts: one thing. The two deer: there is no resource-transfer mechanism between them, so there's no internal fiber to mix on, no well structure, no spectral gap. The framework predicts: two things. The ant colony: food sharing via regurgitation creates a resource-mixing mechanism, but whether the three conditions hold depends on the timescale. On the starvation timescale (weeks), food redistribution is probably fast enough — prediction: one thing. On the freezing timescale (minutes), individual ants can't share body heat fast enough — prediction: many things.
+Back to the opening examples. The cell has strong homeostatic regulation (metastable well), ATP equilibration is fast relative to acute toxin exposure (spectral compression), and the metabolic landscape doesn't shift faster than equilibration (timescale ordering) — so the framework predicts it should behave as one thing. The two deer have no resource-transfer mechanism between them, so there's no fiber, no well, no gap, and the framework predicts two things. The ant colony is where it gets interesting: food sharing via regurgitation creates a mixing mechanism, but whether the three conditions hold depends entirely on the timescale you're asking about — on the starvation timescale (weeks), redistribution is probably fast enough for coherence, while on the freezing timescale (minutes), individual ants can't share body heat fast enough and the colony fragments into many independent units.
 </p>
 
 <p>
-These are not yet verified empirical claims. They are structural predictions that the framework makes, and they are the kind of thing that could in principle be measured. The monograph is honest about this: the bridge from the mathematical realization to real biological and agentic systems is the program's open frontier.
+These are structural predictions, not verified empirical claims. They're the kind of thing that could in principle be measured. The monograph is honest about this: the bridge from mathematical realization to real systems is the program's open frontier.
 </p>
 
 <figure class="figure">
   <img src="fig4.png" alt="Three-panel spectral compression triptych showing survival probability decomposition over time. Left: early, with multiple spectral modes visible as a wiggly curve. Middle: mid-transition, with sub-leading modes fading. Right: late, with a single smooth bell-shaped principal mode — the block has compressed to a scalar.">
-  <figcaption><strong>Figure 4.</strong> Spectral compression over time. Early on, the block's survival profile depends on microstate details (multiple modes). As sub-leading modes decay, only the principal mode survives — and the block's entire future is captured by a single number.</figcaption>
+  <figcaption><strong>Figure 5.</strong> Spectral compression over time. Early on, the block's survival profile depends on microstate details (multiple modes). As sub-leading modes decay, only the principal mode survives — and the block's entire future is captured by a single number.</figcaption>
 </figure>
 
 <div class="section-break">· · ·</div>
@@ -839,55 +856,81 @@ These are not yet verified empirical claims. They are structural predictions tha
 <h2><span class="section-number">7.</span> Where the two sides meet</h2>
 
 <p>
-There's a satisfying structural observation that unifies the two sides. In the model class where the synthesis works, the outer geometric aggregation — when you take logs — becomes arithmetic:
+One structural observation unifies both sides. In the model class where the synthesis works, outer geometric aggregation — when you take logs — becomes arithmetic:
 </p>
 
 $$\log V_\Delta = \sum_i w_i \log c_i(\Delta) \approx -\Delta \sum_i w_i \, a_1^{(i)}$$
 
 <p>
-On the left: the log of the geometric mean, which is the outer evaluator. On the right: a weighted sum of decay rates — arithmetic in the log-survival coordinate.
+Left side: log of the geometric mean (the outer evaluator). Right side: a weighted sum of decay rates — arithmetic in the log-survival coordinate.
 </p>
 
 <p>
-So the AM-GM boundary is not a boundary between incommensurate aggregation rules. It's a boundary <em>in a single additive coordinate</em> where <em>what's being summed</em> changes. Inside the block, we sum resources. At the interface, we sum log-decay-rates. Across blocks, the sum is weighted by external scheduling. One additive structure, three levels of abstraction.
+The AM-GM boundary is a boundary in a single additive coordinate where <em>what's being summed</em> changes. Inside the block, we sum resources. At the interface, we sum log-decay-rates. Across blocks, the sum is weighted by external scheduling. One additive structure, three levels of abstraction.
 </p>
 
 <p>
-Under slow-fast dynamics — where the block's environment itself changes over time — the log-rate generalizes to the log of a Feynman-Kac expectation, which accounts for the stochastic path of the environment. The synthesis survives this generalization, but only in certain dynamical regimes (quasi-static and fast-mixing), with explicit characterization of where it breaks and what replaces it.
+Under slow-fast dynamics — where the block's environment changes over time — the log-rate generalizes to the log of a Feynman-Kac expectation, accounting for the stochastic path of the environment. The synthesis survives this generalization in certain regimes (quasi-static and fast-mixing), with explicit characterization of where it breaks and what replaces it.
 </p>
 
 <div class="section-break">· · ·</div>
 
 <!-- ── §8. CONNECTIONS ────────────────────────── -->
-<h2><span class="section-number">8.</span> Connections and what remains</h2>
+<h2><span class="section-number">8.</span> When wholes become parts</h2>
 
 <p>
-The AM-GM program sits at the intersection of several existing research programs, drawing from each and connecting them:
+This section is the part I actually care about, and the reason I think the program matters beyond its formal results.
 </p>
 
 <p>
-<strong><a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant's geometric rationality</a></strong> identified the weighted geometric mean as the unique compositional aggregation rule across non-transferable branches. The AM-GM program takes this as a characterization of the outer edge and adds the inner edge, the interface value, and the dynamical theory of when the boundary exists. Geometric rationality tells you what to do once the branches are specified; the AM-GM program tries to tell you what counts as a branch.
+There are lots of theories of how parts become wholes — the Free Energy Principle says a system with a Markov blanket (a conditional-independence boundary between inside and outside) is a candidate whole, Krakauer and Flack say a system that determines its own future is autonomous, Godfrey-Smith says a biological individual is something with the right evolutionary properties — and these are all reasonable answers to "what makes many parts one system?"
 </p>
 
 <p>
-<strong>Peters's ergodicity economics</strong> explains why $E[\ln(\cdot)]$ is the right objective for systems facing multiplicative dynamics. The AM-GM program grounds this in subsystem structure: you maximize $E[\ln(\cdot)]$ because you're aggregating across non-transferable branches, and the log-rate coordinate is where inner and outer aggregation meet.
+Almost nobody asks the reverse: when does a whole become available as a <em>part</em>?
 </p>
 
 <p>
-<strong>Friston's Free Energy Principle</strong> identifies systems by Markov blankets — conditional-independence boundaries between internal and external states. The AM-GM boundary is a different kind of boundary: it's about resource transferability, not information flow. A cell, an ant colony, and a rock all have Markov blankets in some sense. The AM-GM boundary asks which of those blankets correspond to <em>coherent units for viability accounting</em>.
+A Markov blanket gives you a candidate boundary. Fine. But does the thing inside that boundary act as a single unit when the world queries it? Or does it respond as an unresolved multiplicity — many internal states that haven't agreed on an answer?
 </p>
 
 <p>
-<strong>What remains.</strong> The monograph is a proof-of-concept in a specific model class — reversible killed birth-death processes with Gibbs-lifted fiber dynamics. The four situations that opened this post are not yet resolved by this work. Whether real biological systems exhibit the three-part spectral structure the synthesis requires — whether cells, colonies, and forest stands satisfy the conditions on their viability timescales — is an empirical question the theory opens but does not answer. The theory tells you what to measure. Whether the measurements come out the way the theory predicts is the open frontier.
+AM-GM gives a specific test: the whole becomes a part when its internal dynamics have compressed its microstates into a scalar interface value before the next viability-relevant event, and the spectral gap is the clock that governs this process. If the gap is large relative to the hazard timescale — $g\Delta \gg 1$ — the system has erased its internal detail and can participate in higher-level composition as one thing, but if the gap is small the "whole" hasn't compressed, and it answers the world's query as an unresolved collection of parts.
+</p>
+
+<p>
+The same entity can pass the test at one timescale and fail at another. A body is one thing for slow caloric budgeting (metabolic redistribution is fast relative to starvation). It is many things for a bullet wound (blood redistribution can't compensate before the wound kills). A company is one thing for quarterly strategy (internal reallocation happens between board meetings). It may be many things for a sudden market crash (internal coordination can't keep up). These aren't metaphors — they're instances of the same timescale comparison, and the theory gives you a number ($g\Delta$, the compression product) that tracks the transition.
+</p>
+
+<p>
+I think this is a <em>failure theory</em> for individuality, and I'm not aware of another one in the literature with this structure. Most theories tell you what a whole <em>is</em>. AM-GM tells you when a whole <em>stops being available as a compositional unit</em> — and the failure modes are specific: insufficient spectral gap (no compression), moving landscape faster than compression (no stable interface), leaky boundary re-injecting microstate detail (no sustained compression). Each is measurable.
+</p>
+
+<p>
+The FEP connection is then precise: AM-GM does not replace Markov blankets but temporally grades them, in the sense that a blanket is structurally significant for viability aggregation when its internal dynamics compress faster than the hazards and coarse motions that query it, and a blanket that fails this test encloses something, but not yet a composable individual.
+</p>
+
+<p>
+<strong><a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Garrabrant's geometric rationality</a></strong> tells you what to do once branches are specified — take the geometric mean. AM-GM tries to tell you what counts as a branch. <strong>Peters's ergodicity economics</strong> tells you why $E[\ln(\cdot)]$ is the right objective under multiplicative dynamics. AM-GM grounds this in subsystem structure: the log-rate coordinate is where inner arithmetic and outer geometric aggregation meet, and the branches exist because of a dynamical fact about transferability.
+</p>
+
+<p>
+<strong>What remains.</strong> The monograph is a proof-of-concept in a specific model class, and the four situations from the opening — cell, deer, colony, forest — are not yet empirically resolved. Whether real biological systems exhibit the three-part spectral structure the synthesis requires is an open question that the theory makes precise but does not answer; the theory tells you what to measure, and the measurements are future work.
+</p>
+
+<p>
+But the conceptual claim stands independently of the empirical program: individuality is not a static property of bounded systems but a system's ability to compress itself into a usable part before the world asks it a question, and the AM-GM boundary is where that ability runs out.
 </p>
 
 <!-- ── FOOTNOTES ──────────────────────────────── -->
 <div class="footnotes-section">
-  <p class="footnote"><span class="footnote-marker" id="fn1">1.</span> This is where the AM-GM program parts ways with Markov blanket–based individuality criteria (as in the Free Energy Principle). Markov blankets are defined by conditional independence — an information-theoretic property. The AM-GM boundary is defined by resource-transfer dynamics — a thermodynamic property. A system can have a well-defined Markov blanket and still not be a coherent unit in the AM-GM sense, if its internal resource mixing is too slow relative to hazard arrival. <a href="#fnref1">↩</a></p>
+  <p class="footnote"><span class="footnote-marker" id="fn1">1.</span> This is where AM-GM parts ways with Markov-blanket individuality (the Free Energy Principle). Markov blankets are conditional-independence structures — an information-theoretic property. The AM-GM boundary is about resource-transfer dynamics — a thermodynamic property. A system can have a well-defined Markov blanket and fail to be a coherent unit in the AM-GM sense, if its internal mixing is too slow relative to hazard arrival. Conversely, a system can be AM-GM-coherent without a clean blanket: the ant colony has no sharp conditional-independence boundary, but its food redistribution may be fast enough to make it one viability unit. <a href="#fnref1">↩</a></p>
 
   <p class="footnote"><span class="footnote-marker" id="fn2">2.</span> This also connects to the units-of-selection debate in evolutionary biology. A group counts as a "unit of selection" on a given generational timescale if its aggregate viability has interface structure on that timescale. The AM-GM program gives this informal criterion a specific mathematical operationalization. <a href="#fnref2">↩</a></p>
 
-  <p class="footnote"><span class="footnote-marker" id="fn3">3.</span> Some of the spectral results in the monograph carry "formal" status — rigorous modulo specific offstage dependencies (notably a metastable-capacity asymptotic from the Bovier-style literature) that the monograph uses but does not independently derive. The monograph is explicit about which results are fully rigorous and which are formal in this sense. <a href="#fnref3">↩</a></p>
+  <p class="footnote"><span class="footnote-marker" id="fn3">3.</span> Some spectral results carry "formal" status — rigorous modulo specific offstage dependencies (notably a metastable-capacity asymptotic from the Bovier-style literature) that the monograph uses but does not independently derive. The monograph is explicit about which results are fully rigorous and which are formal in this sense. <a href="#fnref3">↩</a></p>
+
+  <p class="footnote"><span class="footnote-marker" id="fn4">4.</span> Garrabrant introduces the term in <a href="https://www.lesswrong.com/posts/rc5ZKGjXTHs7wPjop/geometric-exploration-arithmetic-exploitation">"Geometric Exploration, Arithmetic Exploitation"</a> (November 2022), part of his <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Geometric Rationality</a> sequence: "I call this distinction the AM-GM boundary (arithmetic mean/geometric mean boundary). There is a large space of stuff, and that stuff is combined using a geometric mean by default, but there are small clusters in which the stuff is combined using an arithmetic mean." The present program takes Garrabrant's concept and asks the question he left open: what determines where the boundary falls, and what dynamical structure makes a cluster cohere as a single unit for the outer geometric aggregation? <a href="#fnref4">↩</a></p>
 </div>
 
 </article>
