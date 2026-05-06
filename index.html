@@ -454,10 +454,10 @@
   <div class="kicker">Agent Foundations</div>
   <h1>What Makes Something One&nbsp;Thing?</h1>
   <div class="subtitle">
-    Everybody asks how parts become wholes. I want to know when wholes become parts.
+    Everybody asks when parts become wholes. When do wholes become parts?
   </div>
   <div class="meta">
-    Haru Kim · May 2026 · Companion to the <a href="monograph.pdf">technical monograph</a>
+    Haru Kim · Last Updated: May 6, 2026 · Companion to the <a href="monograph.pdf">draft monograph (pdf link)</a>
   </div>
 </header>
 
@@ -574,7 +574,7 @@ When the pipe is fast relative to hazard arrival, the two compartments equalize 
 </p>
 
 <p>
-I call this the <strong>AM-GM boundary</strong>, a term coined by Scott Garrabrant in his geometric rationality sequence<span class="footnote-ref" id="fnref4">4</span> — the dynamical location where <em>arithmetic</em> aggregation (pooling, totals) gives way to <em>geometric</em> aggregation (composing independent survival probabilities).
+I call this the <strong>AM-GM boundary</strong>, a term coined by Scott Garrabrant in his geometric rationality sequence<span class="footnote-ref" id="fnref2">2</span> — the dynamical location where <em>arithmetic</em> aggregation (pooling, totals) gives way to <em>geometric</em> aggregation (composing independent survival probabilities).
 </p>
 
 <figure class="figure">
@@ -722,7 +722,7 @@ So: inside the boundary, pooling works and only totals matter (arithmetic). Outs
 </p>
 
 <p>
-The connection to expected-log maximization is direct. Maximizing $E[\ln X]$ — the strategy mandated by the Kelly criterion, by Peters's ergodicity economics, and by Garrabrant's geometric rationality — is maximizing the geometric mean of outcomes. AM-GM gives this a structural grounding: you maximize $E[\ln X]$ when you're aggregating across non-transferable branches, and the branches are non-transferable because of a dynamical fact about where the AM-GM boundary falls.<span class="footnote-ref" id="fnref2">2</span>
+The connection to expected-log maximization is direct. Maximizing $E[\ln X]$ — the strategy mandated by the Kelly criterion, by Peters's ergodicity economics, and by Garrabrant's geometric rationality — is maximizing the geometric mean of outcomes. AM-GM gives this a structural grounding: you maximize $E[\ln X]$ when you're aggregating across non-transferable branches, and the branches are non-transferable because of a dynamical fact about where the AM-GM boundary falls.<span class="footnote-ref" id="fnref3">3</span>
 </p>
 
 <div class="section-break">· · ·</div>
@@ -815,7 +815,7 @@ With the Gibbs structure in place, three things happen simultaneously:
 </p>
 
 <p>
-The hazard rate becomes exponentially small in the resource level (the system sits in a deep potential well and rarely reaches the dangerous boundary). A <em>spectral compression window</em> opens: there's now a wide temporal range where the block has collapsed onto its principal survival mode but hasn't yet died — exactly the window where a scalar interface value makes sense. And the interface value itself acquires a clean mathematical form: it's the principal eigenvalue of the killed process, with a three-factor decomposition into macroscopic concentration, mesoscopic transport, and microscopic reactivity.<span class="footnote-ref" id="fnref3">3</span>
+The hazard rate becomes exponentially small in the resource level (the system sits in a deep potential well and rarely reaches the dangerous boundary). A <em>spectral compression window</em> opens: there's now a wide temporal range where the block has collapsed onto its principal survival mode but hasn't yet died — exactly the window where a scalar interface value makes sense. And the interface value itself acquires a clean mathematical form: it's the principal eigenvalue of the killed process, with a three-factor decomposition into macroscopic concentration, mesoscopic transport, and microscopic reactivity.<span class="footnote-ref" id="fnref4">4</span>
 </p>
 
 <div class="section-break">· · ·</div>
@@ -926,11 +926,11 @@ But the conceptual claim stands independently of the empirical program: individu
 <div class="footnotes-section">
   <p class="footnote"><span class="footnote-marker" id="fn1">1.</span> This is where AM-GM parts ways with Markov-blanket individuality (the Free Energy Principle). Markov blankets are conditional-independence structures — an information-theoretic property. The AM-GM boundary is about resource-transfer dynamics — a thermodynamic property. A system can have a well-defined Markov blanket and fail to be a coherent unit in the AM-GM sense, if its internal mixing is too slow relative to hazard arrival. Conversely, a system can be AM-GM-coherent without a clean blanket: the ant colony has no sharp conditional-independence boundary, but its food redistribution may be fast enough to make it one viability unit. <a href="#fnref1">↩</a></p>
 
-  <p class="footnote"><span class="footnote-marker" id="fn2">2.</span> This also connects to the units-of-selection debate in evolutionary biology. A group counts as a "unit of selection" on a given generational timescale if its aggregate viability has interface structure on that timescale. The AM-GM program gives this informal criterion a specific mathematical operationalization. <a href="#fnref2">↩</a></p>
+  <p class="footnote"><span class="footnote-marker" id="fn2">2.</span> Garrabrant introduces the term in <a href="https://www.lesswrong.com/posts/rc5ZKGjXTHs7wPjop/geometric-exploration-arithmetic-exploitation">"Geometric Exploration, Arithmetic Exploitation"</a> (November 2022), part of his <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Geometric Rationality</a> sequence: "I call this distinction the AM-GM boundary (arithmetic mean/geometric mean boundary). There is a large space of stuff, and that stuff is combined using a geometric mean by default, but there are small clusters in which the stuff is combined using an arithmetic mean." The present program takes Garrabrant's concept and asks the question he left open: what determines where the boundary falls, and what dynamical structure makes a cluster cohere as a single unit for the outer geometric aggregation? <a href="#fnref2">↩</a></p>
 
-  <p class="footnote"><span class="footnote-marker" id="fn3">3.</span> Some spectral results carry "formal" status — rigorous modulo specific offstage dependencies (notably a metastable-capacity asymptotic from the Bovier-style literature) that the monograph uses but does not independently derive. The monograph is explicit about which results are fully rigorous and which are formal in this sense. <a href="#fnref3">↩</a></p>
+  <p class="footnote"><span class="footnote-marker" id="fn3">3.</span> This also connects to the units-of-selection debate in evolutionary biology. A group counts as a "unit of selection" on a given generational timescale if its aggregate viability has interface structure on that timescale. The AM-GM program gives this informal criterion a specific mathematical operationalization. <a href="#fnref3">↩</a></p>
 
-  <p class="footnote"><span class="footnote-marker" id="fn4">4.</span> Garrabrant introduces the term in <a href="https://www.lesswrong.com/posts/rc5ZKGjXTHs7wPjop/geometric-exploration-arithmetic-exploitation">"Geometric Exploration, Arithmetic Exploitation"</a> (November 2022), part of his <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Geometric Rationality</a> sequence: "I call this distinction the AM-GM boundary (arithmetic mean/geometric mean boundary). There is a large space of stuff, and that stuff is combined using a geometric mean by default, but there are small clusters in which the stuff is combined using an arithmetic mean." The present program takes Garrabrant's concept and asks the question he left open: what determines where the boundary falls, and what dynamical structure makes a cluster cohere as a single unit for the outer geometric aggregation? <a href="#fnref4">↩</a></p>
+  <p class="footnote"><span class="footnote-marker" id="fn4">4.</span> Some spectral results carry "formal" status — rigorous modulo specific offstage dependencies (notably a metastable-capacity asymptotic from the Bovier-style literature) that the monograph uses but does not independently derive. The monograph is explicit about which results are fully rigorous and which are formal in this sense. <a href="#fnref4">↩</a></p>
 </div>
 
 </article>
